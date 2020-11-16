@@ -3,9 +3,7 @@ package moe.kageru.kagebot.command
 import arrow.core.Option
 import arrow.core.toOption
 import moe.kageru.kagebot.Util
-import moe.kageru.kagebot.extensions.unwrap
-import org.javacord.api.entity.permission.Role
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 
 class Permissions(
   hasOneOf: List<String>?,
@@ -15,7 +13,7 @@ class Permissions(
   private val hasOneOf: Option<Set<String>> = hasOneOf?.toSet().toOption()
   private val hasNoneOf: Option<Set<String>> = hasNoneOf?.toSet().toOption()
 
-  fun isAllowed(message: MessageCreateEvent): Boolean = when {
+  fun isAllowed(message: CertainMessageEvent): Boolean = when {
     message.messageAuthor.isBotOwner -> true
     onlyDM && !message.isPrivateMessage -> false
     // returns true if the Option is empty (case for no restrictions)

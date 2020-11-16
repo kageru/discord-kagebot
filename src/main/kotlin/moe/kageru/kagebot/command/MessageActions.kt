@@ -5,7 +5,8 @@ import moe.kageru.kagebot.Log
 import moe.kageru.kagebot.MessageUtil.sendEmbed
 import moe.kageru.kagebot.config.Config
 import moe.kageru.kagebot.config.LocalizationSpec
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
+import org.javacord.api.event.message.CertainMessageEvent
 
 class MessageActions(
   private val delete: Boolean = false,
@@ -14,7 +15,7 @@ class MessageActions(
   private val assignment: RoleAssignment?
 ) {
 
-  fun run(message: MessageCreateEvent, command: Command) {
+  fun run(message: CertainMessageEvent, command: Command) {
     if (delete) {
       deleteMessage(message)
     }
@@ -22,7 +23,7 @@ class MessageActions(
     assignment?.assign(message)
   }
 
-  private fun deleteMessage(message: MessageCreateEvent) {
+  private fun deleteMessage(message: CertainMessageEvent) {
     if (message.message.canYouDelete()) {
       message.deleteMessage()
       message.messageAuthor.asUser().ifPresent { user ->

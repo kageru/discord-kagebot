@@ -9,7 +9,7 @@ import moe.kageru.kagebot.config.Config
 import moe.kageru.kagebot.features.MessageFeature
 import org.javacord.api.entity.message.MessageAuthor
 import org.javacord.api.entity.message.embed.EmbedBuilder
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 
 private const val AUTHOR_PLACEHOLDER = "@@"
 
@@ -33,9 +33,9 @@ class Command(
 
   fun matches(msg: String) = this.matchType.matches(msg, this)
 
-  fun isAllowed(message: MessageCreateEvent) = permissions?.isAllowed(message) ?: true
+  fun isAllowed(message: CertainMessageEvent) = permissions?.isAllowed(message) ?: true
 
-  fun execute(message: MessageCreateEvent) {
+  fun execute(message: CertainMessageEvent) {
     Log.info("Executing command ${this.trigger} triggered by user ${message.messageAuthor.discriminatedName} (ID: ${message.messageAuthor.id})")
     Globals.commandCounter.incrementAndGet()
     this.actions?.run(message, this)

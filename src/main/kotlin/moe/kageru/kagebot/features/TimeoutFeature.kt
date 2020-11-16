@@ -18,14 +18,14 @@ import moe.kageru.kagebot.extensions.*
 import moe.kageru.kagebot.persistence.Dao
 import org.javacord.api.entity.permission.Role
 import org.javacord.api.entity.user.User
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 import java.time.Duration
 import java.time.Instant
 
 class TimeoutFeature(@JsonProperty("role") role: String) : MessageFeature {
   private val timeoutRole: Role = findRole(role).unwrap()
 
-  override fun handle(message: MessageCreateEvent) {
+  override fun handle(message: CertainMessageEvent) {
     message.readableMessageContent.split(' ', limit = 4).let { args ->
       Either.cond(
         args.size >= 3,

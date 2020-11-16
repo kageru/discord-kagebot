@@ -13,12 +13,12 @@ import moe.kageru.kagebot.persistence.Dao
 import org.javacord.api.DiscordApi
 import org.javacord.api.entity.channel.ChannelCategory
 import org.javacord.api.entity.channel.ServerVoiceChannel
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 
 class TempVCFeature(@JsonProperty("category") category: String? = null) : EventFeature, MessageFeature {
   private val category: ChannelCategory? = category?.let { Config.server.categoriesByName(it).first() }
 
-  override fun handle(message: MessageCreateEvent): Unit = with(message) {
+  override fun handle(message: CertainMessageEvent): Unit = with(message) {
     Either.cond(' ' in readableMessageContent,
       { readableMessageContent.split(' ', limit = 2).last() },
       { "Invalid syntax, expected `<command> <userlimit>`" })
@@ -46,7 +46,7 @@ class TempVCFeature(@JsonProperty("category") category: String? = null) : EventF
       { Dao.removeTemporaryVC(channel.idAsString) }
     )
 
-  private fun createChannel(message: MessageCreateEvent, limit: Int): Unit =
+  private fun createChannel(message: CertainMessageEvent, limit: Int): Unit =
     Config.server.createVoiceChannelBuilder().apply {
       setUserlimit(limit)
       setName(generateChannelName(message))
@@ -56,6 +56,6 @@ class TempVCFeature(@JsonProperty("category") category: String? = null) : EventF
       { Log.warn("Attempted to create temporary VC without the necessary permissions") },
       { channel -> Dao.addTemporaryVC(channel.idAsString) })
 
-  private fun generateChannelName(message: MessageCreateEvent): String =
+  private fun generateChannelName(message: CertainMessageEvent): String =
     "${message.messageAuthor.name}’s volatile corner"
 }

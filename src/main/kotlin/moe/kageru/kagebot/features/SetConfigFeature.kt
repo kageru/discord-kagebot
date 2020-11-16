@@ -3,11 +3,11 @@ package moe.kageru.kagebot.features
 import moe.kageru.kagebot.MessageUtil.sendEmbed
 import moe.kageru.kagebot.config.Config
 import moe.kageru.kagebot.config.ConfigParser
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 
 class SetConfigFeature : MessageFeature {
   @ExperimentalStdlibApi
-  override fun handle(message: MessageCreateEvent) {
+  override fun handle(message: CertainMessageEvent) {
     if (message.messageAttachments.size != 1) {
       message.channel.sendMessage("Error: please attach the new config to your message.")
       return

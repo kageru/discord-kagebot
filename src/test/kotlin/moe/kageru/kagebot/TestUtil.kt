@@ -17,7 +17,7 @@ import org.javacord.api.entity.channel.ServerTextChannel
 import org.javacord.api.entity.message.embed.EmbedBuilder
 import org.javacord.api.entity.permission.Role
 import org.javacord.api.entity.user.User
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 import org.javacord.core.entity.message.embed.EmbedBuilderDelegateImpl
 import java.io.File
 import java.util.*
@@ -38,7 +38,7 @@ object TestUtil {
     replyEmbeds: MutableList<EmbedBuilder> = mutableListOf(),
     files: MutableList<File> = mutableListOf(),
     isBot: Boolean = false
-  ): MessageCreateEvent {
+  ): CertainMessageEvent {
     return mockk {
       every { messageContent } returns content
       every { readableMessageContent } returns content

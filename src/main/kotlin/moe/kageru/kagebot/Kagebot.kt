@@ -7,7 +7,8 @@ import moe.kageru.kagebot.config.ConfigParser
 import moe.kageru.kagebot.cron.CronD
 import moe.kageru.kagebot.persistence.Dao
 import org.javacord.api.DiscordApiBuilder
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
+import org.javacord.api.event.message.CertainMessageEvent
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -16,7 +17,7 @@ fun main() {
 }
 
 object Kagebot {
-  fun MessageCreateEvent.process() {
+  fun CertainMessageEvent.process() {
     if (messageAuthor.isBotUser) {
       handleOwn()
       return
@@ -26,7 +27,7 @@ object Kagebot {
       .map { it.execute(this) }
   }
 
-  private fun MessageCreateEvent.handleOwn() {
+  private fun CertainMessageEvent.handleOwn() {
     if (messageAuthor.isYourself) {
       val loggedMessage = readableMessageContent.ifBlank { "[embed]" }
       Log.info("<Self> $loggedMessage")
@@ -50,6 +51,7 @@ object Kagebot {
     })
     Log.info("kagebot Mk II running")
     api.addMessageCreateListener { checked { it.process() } }
+    api.addMessageEditListener { checked { it.process() } }
     Config.features.eventFeatures().forEach { it.register(api) }
     CronD.startAll()
   }

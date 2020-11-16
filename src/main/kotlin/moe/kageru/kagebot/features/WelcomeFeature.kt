@@ -9,7 +9,7 @@ import moe.kageru.kagebot.extensions.unwrap
 import org.javacord.api.DiscordApi
 import org.javacord.api.entity.channel.TextChannel
 import org.javacord.api.entity.message.embed.EmbedBuilder
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 import org.javacord.api.event.server.member.ServerMemberJoinEvent
 
 class WelcomeFeature(
@@ -36,7 +36,7 @@ class WelcomeFeature(
     }
   }
 
-  override fun handle(message: MessageCreateEvent) {
+  override fun handle(message: CertainMessageEvent) {
     embed?.let {
       MessageUtil.sendEmbed(message.channel, it)
     } ?: Log.info("Welcome command was triggered, but no welcome embed defined.")

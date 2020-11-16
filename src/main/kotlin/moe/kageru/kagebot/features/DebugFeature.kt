@@ -4,14 +4,14 @@ import com.sun.management.OperatingSystemMXBean
 import moe.kageru.kagebot.Globals
 import moe.kageru.kagebot.MessageUtil
 import org.javacord.api.entity.message.embed.EmbedBuilder
-import org.javacord.api.event.message.MessageCreateEvent
+import org.javacord.api.event.message.CertainMessageEvent
 import java.lang.management.ManagementFactory
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
 class DebugFeature : MessageFeature {
 
-  override fun handle(message: MessageCreateEvent) {
+  override fun handle(message: CertainMessageEvent) {
     if (message.messageAuthor.isBotOwner) {
       MessageUtil.sendEmbed(message.channel, getPerformanceStats())
     }
